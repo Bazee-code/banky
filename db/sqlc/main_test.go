@@ -16,7 +16,7 @@ const (
 
 var testQueries *Queries
 
-// entry point for all unit tests of a go package
+// entry point for all unit tests of a go package in our case package db
 func TestMain(m *testing.M) {
 	conn, err := sql.Open(dbDriver, dbSource)
 
