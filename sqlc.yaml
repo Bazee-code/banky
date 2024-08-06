@@ -6,11 +6,11 @@ sql:
   name: "db"
   gen:
     go: 
-      package: "authors"
-      out: "postgresql"
+      package: "db"
+      out: "sqlc"
       emit_json_tags: true
       emit_prepared_queries: false
       emit_interface: false
       emit_exact_table_names: false
   database:
-    managed: true
+    uri: "postgresql://eugene@localhost:5432/banky"
