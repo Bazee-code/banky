@@ -13,6 +13,9 @@ migrateup:
 migratedown:
 	migrate -path db/migration -database "postgresql://YOUR_USER@localhost:5432/banky?sslmode=disable" -verbose down
 
+sqlc:
+	sqlc generate
+
 .PHONY: postgres createdb dropdb migrateup migratedown
 
 # REPLACE YOUR_USER with your postgres user
