@@ -12,7 +12,7 @@ SELECT * FROM entries
 WHERE account_id = $1
 ORDER BY id
 LIMIT $2
-OFFSETT $3;
+OFFSET $3;
 
 -- name: GetEntry :one
 SELECT * FROM entries
