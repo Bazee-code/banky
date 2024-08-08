@@ -32,7 +32,7 @@ func createRandomAccount(t *testing.T) Account {
 
 	return account
 }
-
+ 
 func TestCreateAccount(t *testing.T) {
 	createRandomAccount(t)
 }

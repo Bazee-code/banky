@@ -8,10 +8,10 @@ dropdb:
 	docker exec -it postgres16 dropdb banky
 
 migrateup:
-	migrate -path db/migration -database "postgresql://YOUR_USER@localhost:5432/banky?sslmode=disable" -verbose up 
+	migrate -path db/migration -database "postgresql://eugene@localhost:5432/banky?sslmode=disable" -verbose up 
 
 migratedown:
-	migrate -path db/migration -database "postgresql://YOUR_USER@localhost:5432/banky?sslmode=disable" -verbose down
+	migrate -path db/migration -database "postgresql://eugene@localhost:5432/banky?sslmode=disable" -verbose down
 
 sqlc:
 	sqlc generate
@@ -19,6 +19,6 @@ sqlc:
 test: 
 	go test -v -cover ./...
 
-.PHONY: postgres createdb dropdb migrateup migratedown
+.PHONY: postgres createdb dropdb migrateup migratedown test
 
 # REPLACE YOUR_USER with your postgres user
