@@ -13,4 +13,4 @@ sql:
       emit_interface: false
       emit_exact_table_names: false
   database:
-    uri: "postgresql://eugene@localhost:5432/banky"
+    uri: "postgresql://eugeneobazee:eugene_admin@localhost:5432/banky"
