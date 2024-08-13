@@ -1,17 +1,17 @@
 postgres:
-	docker run --name postgres16 -p 5432:5432 -e POSTGRES_USER=YOUR_USER -e POSTGRES_PASSWORD=YOUR_PASSWORD -d postgres:16-alpine3.20 
+	docker run --name banky-cont -p 5432:5432 -e POSTGRES_USER=eugeneobazee -e POSTGRES_PASSWORD=eugene_admin -d postgres:16-alpine3.20 
 
 createdb:
-	docker exec -it postgres16 createdb --username=YOUR_USER --owner=YOUR_USER banky
+	docker exec -ti banky-cont createdb -U eugeneobazee banky-cont1
 
 dropdb:
 	docker exec -it postgres16 dropdb banky
 
 migrateup:
-	migrate -path db/migration -database "postgresql://eugene@localhost:5432/banky?sslmode=disable" -verbose up 
+	migrate -path db/migration -database "postgresql://eugeneobazee:eugene_admin@localhost:5432/banky?sslmode=disable" -verbose up 
 
 migratedown:
-	migrate -path db/migration -database "postgresql://eugene@localhost:5432/banky?sslmode=disable" -verbose down
+	migrate -path db/migration -database "postgresql://eugeneobazee@localhost:5432/banky?sslmode=disable" -verbose down
 
 sqlc:
 	sqlc generate
