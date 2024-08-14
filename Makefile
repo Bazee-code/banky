@@ -16,9 +16,12 @@ migratedown:
 sqlc:
 	sqlc generate
 
+runserver:
+	go run main.go
+
 test: 
 	go test -v -cover ./...
 
-.PHONY: postgres createdb dropdb migrateup migratedown test
+.PHONY: postgres createdb dropdb migrateup migratedown test runserver
 
 # REPLACE YOUR_USER with your postgres user
