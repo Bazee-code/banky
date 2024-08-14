@@ -18,6 +18,11 @@ type getAccountRequest struct {
 	ID int64 `uri:"id" binding:"required,min=1"`
 }
 
+type updateAccountRequest struct {
+	ID      int64 `json:"id" binding:"required,min=1"`
+	Balance int64 `json:"balance" binding:"required"`
+}
+
 func (server *Server) createAccount(ctx *gin.Context) {
 	var req createAccountRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -48,6 +53,31 @@ func (server *Server) getAccountById(ctx *gin.Context) {
 	}
 
 	account, err := server.store.GetAccount(ctx, req.ID)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			ctx.JSON(http.StatusNotFound, errorResponse(err))
+		}
+
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, account)
+}
+
+func (server *Server) updateAccount(ctx *gin.Context) {
+	var req updateAccountRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	arg := db.UpdateAccountParams{
+		ID:      req.ID,
+		Balance: req.Balance,
+	}
+
+	account, err := server.store.UpdateAccount(ctx, arg)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, errorResponse(err))
