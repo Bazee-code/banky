@@ -7,6 +7,8 @@ import (
 	db "github.com/techschool/simplebank/db/sqlc"
 
 	"log"
+
+	_ "github.com/lib/pq"
 )
 
 const (
