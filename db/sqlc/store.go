@@ -7,22 +7,29 @@ import (
 )
 
 // Store provides all funcs to execute db queries and transactions
-type Store struct {
+
+type Store interface {
+	Querier
+	TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error)
+}
+
+type SQLStore struct {
 	*Queries // this is known as composition & is the preferred way of extending structs instead of inheritance
 
 	db *sql.DB //we add the db obj to give us access to db commands required to make a transaction
 }
 
 // NewStore creates a new store
-func NewStore(db *sql.DB) *Store {
-	return &Store{
+// *Store return a pointer
+func NewStore(db *sql.DB) Store {
+	return &SQLStore{
 		db:      db,
 		Queries: New(db),
 	}
 }
 
 // execTx executes a function within a db transaction
-func (store *Store) execTx(ctx context.Context, fn func(*Queries) error) error {
+func (store *SQLStore) execTx(ctx context.Context, fn func(*Queries) error) error {
 	tx, err := store.db.BeginTx(ctx, nil)
 	if err != nil {
 		return err
@@ -59,7 +66,7 @@ type TransferTxResult struct {
 
 // TransferTx perfroms a money transfer from one acc to another
 // It creates a transfer record, add acc entries and update acc balances with a single db transaction
-func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error) {
+func (store *SQLStore) TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error) {
 	var result TransferTxResult
 
 	err := store.execTx(ctx, func(q *Queries) error {
