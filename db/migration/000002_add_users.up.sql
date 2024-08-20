@@ -10,4 +10,5 @@ CREATE TABLE "users" (
 ALTER TABLE "accounts" ADD FOREIGN KEY ("owner") REFERENCES "users" ("username");
 
 -- CREATE UNIQUE INDEX ON "accounts" ("owner", "currency");
+-- a user can have multiple accounts but not of the same currency
 ALTER TABLE "accounts" ADD CONSTRAINT "owner_currrency_key" UNIQUE ("owner", "currency");
